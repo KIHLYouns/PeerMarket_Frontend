@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - TechBridge</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/partner-dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-logo">TechBridge</div>
+      <nav class="header-nav">
+        <a href="home.html" class="header-nav-item">Browse</a>
+        <a href="partner-dashboard.html" class="header-nav-item active">Dashboard</a>
+        <a href="partner-bookings.html" class="header-nav-item">Bookings</a>
+        <a href="partner-profile.html" class="header-nav-item">Profile</a>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard-container">
+      <div class="page-header">
+        <h1>Dashboard</h1>
+        <button class="primary-button">
+          <i class="fas fa-plus"></i> Add Listing
+        </button>
+      </div>
+
+      <!-- Stats Overview -->
+      <div class="stats-overview">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-list"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Active Listings</div>
+          </div>
+          <div class="stat-limit">
+            <div class="limit-bar">
+              <div class="limit-fill" style="width: 60%"></div>
+            </div>
+            <span class="limit-text">3/5 maximum</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-value">7</div>
+            <div class="stat-label">Upcoming Bookings</div>
+          </div>
+          <button class="view-all-btn">View All</button>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-value">4</div>
+            <div class="stat-label">Pending Reviews</div>
+          </div>
+          <button class="view-all-btn">View All</button>
+        </div>
+      </div>
+
+      <!-- My Listings Section -->
+      <div class="section-header">
+        <h2>My Listings</h2>
+        <div class="section-actions">
+          <select class="filter-select">
+            <option>All Listings</option>
+            <option>Active</option>
+            <option>Paused</option>
+            <option>Archived</option>
+            <option>Premium</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="listings-grid">
+        <div class="listing-card">
+          <div class="listing-header">
+            <span class="listing-status available">Active</span>
+            <div class="listing-header-right-items">
+              <div class="listing-stats">
+                <div class="listing-stat">
+                  <i class="fas fa-eye"></i> 126 views
+                </div>
+              </div>
+              <div class="premium-badge">Premium</div>
+            </div>
+          </div>
+          <img src="assets/images/item-placeholder.jpg" alt="Equipment" class="listing-image" />
+          <div class="listing-details">
+            <div class="listing-header-row">
+              <h3 class="listing-title">Portable PA System</h3>
+              <div class="listing-price">€150/day</div>
+            </div>
+            <div class="listing-actions">
+              <button class="listing-action-btn edit">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="listing-action-btn pause">
+                <i class="fas fa-pause"></i> Pause
+              </button>
+              <button class="listing-action-btn archive">
+                <i class="fas fa-archive"></i> Archive
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="listing-card">
+          <div class="listing-header">
+            <span class="listing-status paused">Paused</span>
+          </div>
+          <img src="assets/images/item-placeholder.jpg" alt="Equipment" class="listing-image" />
+          <div class="listing-details">
+            <div class="listing-header-row">
+              <h3 class="listing-title">LED Lighting Pack (x8)</h3>
+              <div class="listing-price">€100/day</div>
+            </div>
+            <div class="listing-actions">
+              <button class="listing-action-btn edit">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="listing-action-btn activate">
+                <i class="fas fa-play"></i> Activate
+              </button>
+              <button class="listing-action-btn archive">
+                <i class="fas fa-archive"></i> Archive
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="listing-card">
+          <div class="listing-header">
+            <span class="listing-status archived">Archived</span>
+          </div>
+          <img src="assets/images/item-placeholder.jpg" alt="Equipment" class="listing-image" />
+          <div class="listing-details">
+            <div class="listing-header-row">
+              <h3 class="listing-title">Wireless Microphone Set (Archived)</h3>
+              <div class="listing-price">€80/day</div>
+            </div>
+            <div class="listing-actions">
+              <button class="listing-action-btn activate">
+                <i class="fas fa-undo"></i> Restore
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="listing-card">
+          <div class="listing-header">
+            <span class="listing-status available">Active</span>
+          </div>
+          <img src="assets/images/item-placeholder.jpg" alt="Equipment" class="listing-image" />
+          <div class="listing-details">
+            <div class="listing-header-row">
+              <h3 class="listing-title">DJI Ronin-S Gimbal</h3>
+              <div class="listing-price">€120/day</div>
+            </div>
+            <div class="listing-actions">
+              <button class="listing-action-btn edit">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="listing-action-btn pause">
+                <i class="fas fa-pause"></i> Pause
+              </button>
+              <button class="listing-action-btn boost">
+                <i class="fas fa-rocket"></i> Boost
+              </button>
+              <button class="listing-action-btn archive">
+                <i class="fas fa-archive"></i> Archive
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Functionality for "View All" buttons
+        const viewAllButtons = document.querySelectorAll('.view-all-btn');
+        viewAllButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const statLabel = this.parentElement.querySelector('.stat-label').textContent;
+            if (statLabel.includes('Bookings')) {
+              window.location.href = 'partner-bookings.html';
+            } else if (statLabel.includes('Reviews')) {
+              window.location.href = 'partner-profile.html#reviews';
+            }
+          });
+        });
+
+        // Functionality for listing filter
+        const filterSelect = document.querySelector('.filter-select');
+        filterSelect.addEventListener('change', function() {
+          // Logic for filtering listings
+          console.log('Selected filter:', this.value);
+        });
+      });
+    </script>
+  </body>
+</html>

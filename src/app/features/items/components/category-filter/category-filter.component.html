@@ -1,0 +1,25 @@
+<nav class="categories" role="navigation" aria-label="Catégories d'articles">
+  <button 
+    class="category-item"
+    [class.active]="isActive(null)"
+    (click)="onCategoryClick(null)"
+    type="button"
+    [attr.aria-pressed]="isActive(null)">
+    Toutes les catégories
+  </button>
+  
+  <button 
+    *ngFor="let category of categories"
+    class="category-item"
+    [class.active]="isActive(category.id)"
+    (click)="onCategoryClick(category.id)"
+    type="button"
+    [attr.aria-pressed]="isActive(category.id)">
+    {{ category.name }}
+  </button>
+  
+  <div *ngIf="loading" class="category-item loading" role="status" aria-live="polite">
+    <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+    <span class="sr-only">Chargement des catégories...</span>
+  </div>
+</nav>

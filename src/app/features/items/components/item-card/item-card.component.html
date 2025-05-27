@@ -1,0 +1,38 @@
+<div class="item-card" (click)="onCardClick()">
+  <div class="item-card-image-container">
+    <img [src]="displayImage" alt="{{ item.title }}" class="item-card-image" (error)="onImageError($event)">
+  </div>
+
+  <div class="item-card-content">
+    <h3 class="item-card-title">{{ item.title }}</h3>
+
+    <div class="item-card-details">
+      <p class="item-card-condition">{{ conditionText }}</p>
+      <p class="item-card-price">{{ item.price }} Dh</p>
+    </div>
+
+    <div class="item-card-seller-info">
+      <p class="item-card-seller">{{ item.sellerUsername }}</p>
+      <div class="item-card-seller-rating" *ngIf="item.sellerAverageRating !== undefined && item.sellerAverageRating !== null">
+        <div class="rating-stars">
+          <i *ngFor="let star of ratingArray" 
+             class="fas" 
+             [class.fa-star]="star === 1" 
+             [class.fa-star-o]="star === 0">
+          </i>
+        </div>
+        <span class="rating-text">{{ item.sellerAverageRating | number:'1.1-1' }}/5</span>
+        <span *ngIf="item.sellerRatingCount !== undefined" class="rating-count">({{ item.sellerRatingCount }})</span>
+      </div>
+    </div>
+
+    <div class="item-card-meta">
+      <p class="item-card-views" *ngIf="item.viewCount !== undefined">
+        <i class="fas fa-eye"></i> {{ item.viewCount }}
+      </p>
+      <p class="item-card-city" *ngIf="item.sellerCityName">
+        <i class="fas fa-map-marker-alt"></i> {{ item.sellerCityName }}
+      </p>
+    </div>
+  </div>
+</div>

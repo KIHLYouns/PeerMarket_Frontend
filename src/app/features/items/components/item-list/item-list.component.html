@@ -1,0 +1,78 @@
+<main class="home-container">
+  <!-- Categories Section -->
+  <app-category-filter 
+    [selectedCategoryId]="selectedCategoryId"
+    (categoryChange)="onCategoryChange($event)">
+  </app-category-filter>
+
+  <div class="content-wrapper">
+    <div class="items-section">
+      <!-- Search Bar and Sort Options -->
+      <div class="search-and-sort-section">
+        <div class="search-container">
+          <i class="fas fa-search search-icon"></i>
+          <input 
+            type="text" 
+            placeholder="Rechercher des articles..."
+            class="search-input"
+            (input)="onSearch($any($event.target).value)"
+            [value]="searchTerm">
+        </div>
+        
+        <div class="filter-container">
+          <div class="filter-control city-filter-container">
+            <label for="city-filter" class="filter-label">Ville:</label>
+            <select id="city-filter" class="filter-select" (change)="onCityChange($any($event.target).value)" [value]="selectedCityId || ''">
+              <option value="">Toutes les villes</option>
+              <option *ngFor="let city of cities" [value]="city.id">
+                {{ city.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="filter-control sort-container">
+            <label for="sort-options" class="filter-label sort-label">Trier par:</label>
+            <select id="sort-options" class="filter-select sort-select" (change)="onSortChange($any($event.target).value)" [value]="sortBy">
+              <option *ngFor="let option of sortOptions" [value]="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </div>
+        </div>  
+      </div>
+
+      <div class="results-count" *ngIf="!loading">
+        {{ filteredItems.length }} article(s) trouvé(s)
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-state">
+        <i class="fas fa-spinner fa-spin"></i>
+        <span>Chargement des articles...</span>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error" class="error-state">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>{{ error }}</span>
+        <button class="retry-button" (click)="loadItems()">Réessayer</button>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!loading && !error && filteredItems.length === 0" class="empty-state">
+        <i class="fas fa-search"></i>
+        <h3>Aucun article trouvé</h3>
+        <p>Essayez de modifier vos critères de recherche, de catégorie ou de ville.</p>
+        <button class="clear-filters-button" (click)="clearFilters()">Effacer la recherche et les filtres</button>
+      </div>
+
+      <!-- Items Grid -->
+      <div *ngIf="!loading && !error && filteredItems.length > 0" class="items-grid">
+        <app-item-card 
+          *ngFor="let item of filteredItems; trackBy: trackByItemId"
+          [item]="item">
+        </app-item-card>
+      </div>
+    </div>
+  </div>
+</main>
