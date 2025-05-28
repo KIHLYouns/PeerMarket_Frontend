@@ -1,24 +1,27 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface LoginRequest {
-  usernameOrEmail: string;
-  password: string;
-}
-
-export interface AuthResponse {
-  token: string;
-  userId: number;
   username: string;
+  password: string;
 }
 
 export interface RegisterRequest {
   username: string;
   email: string;
+  address: {
+    longitude: number;
+    latitude: number;
+  };
   password: string;
+}
+
+export interface AuthResponse {
+  accessToken: string;
+  userId: number;
 }
 
 @Injectable({
@@ -47,7 +50,7 @@ export class AuthService {
   login(credentials: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
       tap((response) => {
-        localStorage.setItem('authToken', response.token);
+        localStorage.setItem('authToken', response.accessToken);
         localStorage.setItem('currentUser', JSON.stringify(response));
         this.authState.next(true);
         this.currentUserSubject.next(response);
@@ -55,8 +58,15 @@ export class AuthService {
     );
   }
 
-  register(userData: RegisterRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, userData);
+  signUp(signUpData: RegisterRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/signup`, signUpData).pipe(
+      tap((response) => {
+        localStorage.setItem('authToken', response.accessToken);
+        localStorage.setItem('currentUser', JSON.stringify(response));
+        this.authState.next(true);
+        this.currentUserSubject.next(response);
+      })
+    );
   }
 
   logout(): void {

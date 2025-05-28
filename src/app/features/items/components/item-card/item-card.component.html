@@ -1,6 +1,11 @@
 <div class="item-card" (click)="onCardClick()">
   <div class="item-card-image-container">
-    <img [src]="displayImage" alt="{{ item.title }}" class="item-card-image" (error)="onImageError($event)">
+    <img
+      [src]="displayImage"
+      alt="{{ item.title }}"
+      class="item-card-image"
+      (error)="onImageError($event)"
+    />
   </div>
 
   <div class="item-card-content">
@@ -12,18 +17,29 @@
     </div>
 
     <div class="item-card-seller-info">
-      <p class="item-card-seller">{{ item.sellerUsername }}</p>
-      <div class="item-card-seller-rating" *ngIf="item.sellerAverageRating !== undefined && item.sellerAverageRating !== null">
-        <div class="rating-stars">
-          <i *ngFor="let star of ratingArray" 
-             class="fas" 
-             [class.fa-star]="star === 1" 
-             [class.fa-star-o]="star === 0">
-          </i>
-        </div>
-        <span class="rating-text">{{ item.sellerAverageRating | number:'1.1-1' }}/5</span>
-        <span *ngIf="item.sellerRatingCount !== undefined" class="rating-count">({{ item.sellerRatingCount }})</span>
-      </div>
+      <p class="item-card-seller">
+        {{ item.sellerUsername }}
+        <span
+          *ngIf="
+            item.sellerAverageRating !== undefined &&
+              item.sellerAverageRating !== null;
+            else noSellerRating
+          "
+          class="seller-rating-info"
+        >
+          &nbsp;<i
+            class="fas fa-star"
+            style="color: #ffc107; font-size: 14px"
+          ></i>
+          {{ item.sellerAverageRating | number : "1.1-1" }}
+          <span *ngIf="item.sellerRatingCount !== undefined">
+            ({{ item.sellerRatingCount }})</span
+          >
+        </span>
+        <ng-template #noSellerRating>
+          <span class="seller-rating-info"> - </span>
+        </ng-template>
+      </p>
     </div>
 
     <div class="item-card-meta">

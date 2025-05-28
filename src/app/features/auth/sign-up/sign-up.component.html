@@ -1,0 +1,129 @@
+<main class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Créer un compte</h1>
+      <p class="auth-subtitle">
+        Rejoignez PeersMarket pour acheter et vendre en toute confiance
+      </p>
+    </div>
+    <form [formGroup]="mainForm" class="auth-form" (ngSubmit)="onSignUp()">
+      <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <div class="form-group">
+        <label for="username">Nom d'utilisateur</label>
+        <input
+          type="text"
+          id="username"
+          class="form-input"
+          placeholder="Choisissez un nom d'utilisateur"
+          formControlName="username" />
+        <div class="error"
+          *ngIf="usernameCtrl.errors && (usernameCtrl.dirty || usernameCtrl.touched)">
+          {{ getErrorMessage(usernameCtrl) }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          class="form-input"
+          placeholder="votre@email.com"
+          formControlName="email" />
+        <div class="error"
+          *ngIf="emailCtrl.errors && (emailCtrl.dirty || emailCtrl.touched)">
+          {{ getErrorMessage(emailCtrl) }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="password-input-container">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            class="form-input"
+            placeholder="Minimum 8 caractères"
+            formControlName="password" />
+          <button type="button" class="toggle-password"
+            (click)="togglePasswordVisibility()">
+            <i class="fas"
+              [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+        <div class="error"
+          *ngIf="passwordCtrl.errors && (passwordCtrl.dirty || passwordCtrl.touched)">
+          {{ getErrorMessage(passwordCtrl) }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirm-password">Confirmer le mot de passe</label>
+        <div class="password-input-container">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="confirm-password"
+            class="form-input"
+            placeholder="Confirmez votre mot de passe"
+            formControlName="confirmPassword" />
+          <button type="button" class="toggle-password"
+            (click)="togglePasswordVisibility()">
+            <i class="fas"
+              [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+        <div class="error"
+          *ngIf="confirmPasswordCtrl.errors && (confirmPasswordCtrl.dirty || confirmPasswordCtrl.touched)">
+          {{ getErrorMessage(confirmPasswordCtrl) }}
+        </div>
+        <div class="error" *ngIf="showConfirmPasswordError$ | async">
+          Les mots de passe ne correspondent pas
+        </div>
+      </div>
+
+      <div class="terms-section">
+        <div class="terms-group">
+          <input 
+            type="checkbox" 
+            id="terms-general" 
+            formControlName="termsGeneral"
+          />
+          <div class="terms-text">
+            J'accepte les
+            <a href="#" class="terms-link">Conditions Générales</a>
+            et la
+            <a href="#" class="terms-link">Politique de Confidentialité</a>
+            de PeersMarket
+          </div>
+        </div>
+        <div class="error" *ngIf="termsGeneralCtrl.errors && termsGeneralCtrl.touched">
+          {{ getErrorMessage(termsGeneralCtrl) }}
+        </div>
+      </div>
+
+      <div class="location-status" *ngIf="locationStatus !== 'granted'">
+        <p class="error">Veuillez autoriser l'accès à votre localisation pour continuer</p>
+        <button type="button" class="secondary-btn" (click)="requestLocationPermission()">
+          Partager ma localisation
+        </button>
+      </div>
+
+      <button 
+        type="submit" 
+        class="auth-btn" 
+        [disabled]="mainForm.invalid || (loadingState$ | async) || locationStatus !== 'granted'"
+      >
+        <span *ngIf="!(loadingState$ | async)">Créer mon compte</span>
+        <span *ngIf="loadingState$ | async">
+          <i class="fas fa-spinner fa-spin"></i> Création du compte...
+        </span>
+      </button>
+
+      <div class="auth-footer">
+        <span>Déjà inscrit ?
+          <a routerLink="/auth/sign-in" class="auth-link">Se connecter</a></span>
+      </div>
+    </form>
+  </div>
+</main>

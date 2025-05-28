@@ -1,0 +1,72 @@
+<main class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Connexion</h1>
+      <p class="auth-subtitle">Connectez-vous pour accéder à votre compte</p>
+    </div>
+    
+    <form [formGroup]="loginForm" class="auth-form" (ngSubmit)="onSubmit()">
+      <!-- Error message display -->
+      <div class="error-container" *ngIf="errorMessage">
+        <div class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ errorMessage }}
+        </div>
+      </div>
+      
+      <!-- Username/Email input -->
+      <div class="form-group">
+        <label for="username">Nom d'utilisateur ou Email</label>
+        <input
+          type="text"
+          id="username"
+          class="form-input"
+          placeholder="Votre nom d'utilisateur ou email"
+          formControlName="username" />
+        <div class="error" *ngIf="usernameCtrl.errors && usernameCtrl.touched">
+          Le nom d'utilisateur ou l'email est requis
+        </div>
+      </div>
+      
+      <!-- Password input -->
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="password-input-container">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            class="form-input"
+            placeholder="••••••••"
+            formControlName="password" />
+          <button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+            <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+        <div class="error" *ngIf="passwordCtrl.errors && passwordCtrl.touched">
+          Le mot de passe est requis
+        </div>
+      </div>
+      
+      <!-- Submit button -->
+      <button 
+        type="submit" 
+        class="auth-btn"
+        [disabled]="loginForm.invalid || (loadingState$ | async)">
+        <span *ngIf="!(loadingState$ | async)">Se connecter</span>
+        <span *ngIf="loadingState$ | async">
+          <i class="fas fa-spinner fa-spin"></i> Connexion en cours...
+        </span>
+      </button>
+      
+      <!-- Forgot password -->
+      <div class="forgot-password">
+        <a routerLink="/auth/forgot-password" class="auth-link">Mot de passe oublié ?</a>
+      </div>
+      
+      <!-- Footer -->
+      <div class="auth-footer">
+        <span>Pas encore inscrit ? <a routerLink="/auth/sign-up" class="auth-link">Créer un compte</a></span>
+      </div>
+    </form>
+  </div>
+</main>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { CityDto } from './city.service';
 import { ItemDto } from './item.service';
 import { ReviewDto } from './review.service';
@@ -73,13 +73,13 @@ export interface UserProfileViewDto {
 @Injectable({
   providedIn: 'root'
 })
-export class UserProfileService {
+export class UserService {
   private readonly usersApiUrl = `${environment.apiUrl}/users`;
   private readonly userProfileApiUrl = `${environment.apiUrl}/users/profile`;
 
   constructor(private http: HttpClient) {}
 
-  createUser(userData: CreateUserDto): Observable<AppUserDto> {
+  registerUser(userData: CreateUserDto): Observable<AppUserDto> {
     return this.http.post<AppUserDto>(this.usersApiUrl, userData);
   }
 
