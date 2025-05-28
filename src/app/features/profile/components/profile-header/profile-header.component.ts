@@ -41,10 +41,12 @@ export class ProfileHeaderComponent implements OnInit {
     alert('Fonctionnalité de modification de l\'avatar à implémenter.');
   }
 
-  getStarArray(rating: number): number[] {
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 >= 0.5 ? 1 : 0;
-    const emptyStars = 5 - fullStars - halfStar;
-    return Array(fullStars).fill(1).concat(Array(halfStar).fill(0.5)).concat(Array(emptyStars).fill(0));
+  getDefaultAvatar(event: Event, username?: string): void {
+    const target = event.target as HTMLImageElement;
+    const name = username || 'Default User';
+
+    const encodedName = encodeURIComponent(name.trim()).replace(/%20/g, '+');
+    target.src = `https://ui-avatars.com/api/?name=${encodedName}&color=000&size=128`;
+    target.onerror = null; // Prevents infinite error loops
   }
 }

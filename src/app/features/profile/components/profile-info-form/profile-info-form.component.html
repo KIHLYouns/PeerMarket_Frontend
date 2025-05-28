@@ -1,56 +1,51 @@
-<div class="profile-form-container">
+<div class="profile-form-container" *ngIf="isOwnProfile">
   <h2 class="section-header">Informations Personnelles</h2>
-  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" *ngIf="userProfile" class="profile-form">
-    <div class="form-group">
-      <label for="username">Nom d'utilisateur</label>
-      <input type="text" id="username" formControlName="username" class="form-control">
-      <div *ngIf="profileForm.get('username')?.touched && profileForm.get('username')?.errors" class="error-text">
-        <span *ngIf="profileForm.get('username')?.errors?.['required']">Le nom d'utilisateur est requis.</span>
-        <span *ngIf="profileForm.get('username')?.errors?.['minlength']">Doit comporter au moins 3 caractères.</span>
+
+  <ng-container *ngIf="userProfile">
+    <!-- Formulaire éditable pour le propriétaire du profil -->
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+      <div class="form-group">
+        <label for="username">Nom d'utilisateur</label>
+        <input type="text" id="username" formControlName="username" class="form-control">
+        <div *ngIf="profileForm.get('username')?.touched && profileForm.get('username')?.errors" class="error-text">
+        </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" formControlName="email" class="form-control" readonly>
-      <small class="form-text text-muted">L'adresse e-mail ne peut pas être modifiée ici.</small>
-    </div>
-
-    <div class="form-group">
-      <label for="bio">Bio</label>
-      <textarea id="bio" formControlName="bio" class="form-control" rows="4"></textarea>
-      <div *ngIf="profileForm.get('bio')?.touched && profileForm.get('bio')?.errors?.['maxlength']" class="error-text">
-        La bio ne doit pas dépasser 500 caractères.
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" class="form-control" readonly>
+        <small class="form-text text-muted">L'adresse e-mail ne peut pas être modifiée ici.</small>
       </div>
-    </div>
 
-    <div class="form-actions" *ngIf="isOwnProfile">
-      <button type="submit" class="save-btn" [disabled]="isLoading || profileForm.invalid">
-        <span *ngIf="!isLoading">Enregistrer les modifications</span>
-        <span *ngIf="isLoading">Enregistrement...</span>
-      </button>
-    </div>
+      <div class="form-group">
+        <label for="bio">Bio</label>
+        <textarea id="bio" formControlName="bio" class="form-control" rows="4"></textarea>
+        <div *ngIf="profileForm.get('bio')?.touched && profileForm.get('bio')?.errors?.['maxlength']" class="error-text">
+          La bio ne doit pas dépasser 500 caractères.
+        </div>
+      </div>
 
-    <div *ngIf="successMessage" class="alert alert-success mt-3">
-      {{ successMessage }}
-    </div>
-    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-      {{ errorMessage }}
-    </div>
-  </form>
+      <div class="form-actions">
+        <button type="submit" class="save-btn" [disabled]="isLoading || profileForm.invalid">
+          <span *ngIf="!isLoading">Enregistrer les modifications</span>
+          <span *ngIf="isLoading">Enregistrement...</span>
+        </button>
+      </div>
 
-  <div *ngIf="!isOwnProfile && userProfile" class="profile-info-readonly">
-    <div class="info-item">
-      <strong>Nom d'utilisateur:</strong> {{ userProfile.username }}
-    </div>
-    <div class="info-item">
-      <strong>Email:</strong> {{ userProfile.email }}
-    </div>
-    <div class="info-item" *ngIf="userProfile.bio">
-      <strong>Bio:</strong> <p>{{ userProfile.bio }}</p>
-    </div>
-    <div class="info-item" *ngIf="userProfile.address?.city?.name">
-      <strong>Localisation:</strong> {{ userProfile.address?.city?.name }}
-    </div>
+      <div *ngIf="successMessage" class="alert alert-success mt-3">
+        {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </ng-container>
+</div>
+
+<!-- Message alternatif pour les profils publics -->
+<div class="profile-public-info" *ngIf="!isOwnProfile">
+  <div class="public-message">
+    <i class="fas fa-info-circle"></i>
+    <p>Les informations personnelles de cet utilisateur sont privées.</p>
   </div>
 </div>

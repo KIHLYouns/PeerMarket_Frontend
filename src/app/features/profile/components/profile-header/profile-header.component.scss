@@ -108,7 +108,7 @@
 }
 
 .profile-location {
-  font-size: var(--font-size-sm);
+  font-size: 16px;
   color: var(--color-text-medium);
   margin-bottom: 1rem;
   display: flex;
@@ -124,8 +124,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1rem;
-  margin-bottom: 1rem;
   justify-content: center;
+  align-items: center;
 
   @media (min-width: 768px) {
     justify-content: flex-start;
@@ -163,7 +163,10 @@
 .stat-value {
   font-weight: var(--font-bold);
   color: var(--color-text-light);
-  font-size: var(--font-size-base);
+  font-size: 16px;
+}
+.stat-label {
+    font-size: 16px;
 }
 
 .star-rating {
@@ -174,15 +177,12 @@
   
   .stat-value, .stat-label {
     color: var(--color-text-medium);
+    font-size: 16px;
   }
 }
 
-.stat-label {
-  font-size: var(--font-size-xs);
-}
-
 .profile-bio {
-  font-size: var(--font-size-sm);
+  font-size: 15px;
   color: var(--color-text-light);
   line-height: 1.6;
   margin-top: 1rem;

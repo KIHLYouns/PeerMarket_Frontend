@@ -2,8 +2,9 @@
   <div class="profile-header">
     <div class="profile-avatar-container">
       <img 
-        [src]="userProfile.avatarUrl || '/assets/images/default-avatar.png'" 
+        [src]="userProfile.avatarUrl" 
         alt="Avatar de {{ userProfile.username }}" 
+        (error)="getDefaultAvatar($event, userProfile.username)"
         class="profile-avatar">
       <button *ngIf="isOwnProfile" class="edit-avatar-btn" (click)="onEditAvatar()">
         <i class="fas fa-camera"></i>
@@ -27,10 +28,8 @@
         <div class="stat-divider"></div>
         <div class="stat-item">
           <div class="star-rating" *ngIf="ratingCount > 0">
-            <ng-container *ngFor="let starType of getStarArray(averageRating)">
-              <i [ngClass]="{'fas fa-star': starType === 1, 'fas fa-star-half-alt': starType === 0.5, 'far fa-star': starType === 0}"></i>
-            </ng-container>
-            <span class="stat-value">&nbsp;{{ averageRating | number:'1.1-1' }}</span>
+            <i class="fas fa-star"></i>
+            <span class="stat-value">{{ averageRating | number:'1.1-1' }}</span>
             <span class="stat-label"> ({{ ratingCount }} avis)</span>
           </div>
           <span *ngIf="ratingCount === 0" class="stat-label">Pas encore d'avis</span>

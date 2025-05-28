@@ -11,9 +11,8 @@
             Pour : {{ review.revieweeUsername }}
           </strong>
           <div class="review-rating">
-            <ng-container *ngFor="let starType of getStarArray(review.rating)">
-              <i [ngClass]="{'fas fa-star': starType === 1, 'fas fa-star-half-alt': starType === 0.5, 'far fa-star': starType === 0}"></i>
-            </ng-container>
+            <i class="fas fa-star"></i>
+            <span>{{ review.rating }}</span>
           </div>
         </div>
         <span class="review-date">{{ datePipe.transform(review.createdAt, 'dd/MM/yyyy') }}</span>
