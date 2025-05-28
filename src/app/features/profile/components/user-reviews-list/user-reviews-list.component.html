@@ -1,0 +1,30 @@
+<div class="user-reviews-list-container">
+  <h2 class="section-header">{{ title }} ({{ reviews.length }})</h2>
+  <div *ngIf="reviews.length > 0; else noReviews" class="reviews-list">
+    <div *ngFor="let review of reviews" class="review-card">
+      <div class="review-header">
+        <div class="review-author-info">
+          <strong class="review-author" *ngIf="reviewType === 'received'">
+            De : {{ review.reviewerUsername }}
+          </strong>
+          <strong class="review-target" *ngIf="reviewType === 'given'">
+            Pour : {{ review.revieweeUsername }}
+          </strong>
+          <div class="review-rating">
+            <ng-container *ngFor="let starType of getStarArray(review.rating)">
+              <i [ngClass]="{'fas fa-star': starType === 1, 'fas fa-star-half-alt': starType === 0.5, 'far fa-star': starType === 0}"></i>
+            </ng-container>
+          </div>
+        </div>
+        <span class="review-date">{{ datePipe.transform(review.createdAt, 'dd/MM/yyyy') }}</span>
+      </div>
+      <p class="review-text">{{ review.comment }}</p>
+    </div>
+  </div>
+  <ng-template #noReviews>
+    <p class="empty-state">
+      <span *ngIf="reviewType === 'received'">Cet utilisateur n'a pas encore reçu d'avis.</span>
+      <span *ngIf="reviewType === 'given'">Cet utilisateur n'a pas encore donné d'avis.</span>
+    </p>
+  </ng-template>
+</div>

@@ -4,19 +4,19 @@
     <ng-container *ngIf="navState$ | async as nav">
         <!-- Not authenticated -->
         <ng-container *ngIf="!nav.isAuthenticated">
-            <a routerLink="/items" class="header-nav-item">Browse Items</a>
-            <a routerLink="/auth/sign-up" class="header-nav-item">Sign Up</a>
-            <a routerLink="/auth/sign-in" class="header-nav-item">Sign In</a>
+            <a routerLink="/items" class="header-nav-item">Parcourir</a>
+            <a routerLink="/auth/sign-up" class="header-nav-item">S'inscrire</a>
+            <a routerLink="/auth/sign-in" class="header-nav-item">Se connecter</a>
         </ng-container>
         
         <!-- Client-only links -->
         <ng-container *ngIf="nav.isAuthenticated">
-            <a routerLink="/items" class="header-nav-item">Browse Items</a>
-            <a routerLink="/dashboard" class="header-nav-item">Dashboard</a>
-            <a routerLink="/item" class="header-nav-item">Add Listing</a>
-            <a routerLink="/profile" class="header-nav-item">Profile</a>
+            <a routerLink="/items" class="header-nav-item">Parcourir</a>
+            <a routerLink="/dashboard" class="header-nav-item">Tableau de bord</a>
+            <a routerLink="/item" class="header-nav-item">Ajouter une annonce</a>
+            <a routerLink="/profile" class="header-nav-item">Profil</a>
             <button (click)="logout()" class="logout-btn">
-                Logout
+                Déconnexion
             </button>
         </ng-container>
     </ng-container>

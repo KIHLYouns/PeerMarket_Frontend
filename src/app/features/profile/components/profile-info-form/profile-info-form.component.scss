@@ -1,0 +1,155 @@
+:host {
+  --color-primary: #007bff;
+  --color-success: #28a745;
+  --color-danger: #dc3545;
+  --color-text: #212529;
+  --color-text-muted: #6c757d;
+  --border-color: #ced4da;
+  --border-radius-md: 0.25rem;
+  --input-bg: #fff;
+  --input-focus-border-color: #80bdff;
+}
+
+.profile-form-container {
+  padding: 1.5rem;
+  background-color: var(--color-bg-light);
+  border-radius: 8px;
+  border: 2px solid var(--color-border-light);
+  box-shadow: var(--shadow-light);
+}
+
+.section-header {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-light);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  label {
+    font-weight: var(--font-medium);
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+    margin-bottom: 0.25rem;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+    color: var(--color-text-light);
+    background-color: var(--color-bg-dark);
+    border: 2px solid var(--color-border);
+    border-radius: 4px;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      border-color: var(--color-primary);
+      outline: none;
+    }
+
+    &[readonly] {
+      background-color: var(--color-bg-medium);
+      opacity: 0.8;
+    }
+
+    &.ng-invalid.ng-touched {
+      border-color: var(--color-error);
+    }
+  }
+
+  textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+  }
+}
+
+.error-text {
+  font-size: var(--font-size-xs);
+  color: var(--color-error);
+  margin-top: 0.25rem;
+}
+
+.form-text.text-muted {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-medium);
+}
+
+.form-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.save-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-semibold);
+  color: var(--color-bg-dark);
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-dark);
+  }
+
+  &:disabled {
+    background-color: var(--color-text-medium);
+    cursor: not-allowed;
+  }
+}
+
+.alert {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 2px solid;
+  border-radius: 4px;
+  font-size: var(--font-size-sm);
+
+  &.alert-success {
+    color: var(--color-success);
+    background-color: rgba(76, 175, 80, 0.1);
+    border-color: var(--color-success);
+  }
+
+  &.alert-danger {
+    color: var(--color-error);
+    background-color: rgba(244, 67, 54, 0.1);
+    border-color: var(--color-error);
+  }
+}
+
+.profile-info-readonly {
+  .info-item {
+    margin-bottom: 1rem;
+    font-size: var(--font-size-base);
+    
+    strong {
+      font-weight: var(--font-semibold);
+      margin-right: 0.5rem;
+      color: var(--color-text-light);
+    }
+    
+    p {
+      margin-top: 0.25rem;
+      color: var(--color-text-medium);
+      white-space: pre-wrap;
+    }
+  }
+}

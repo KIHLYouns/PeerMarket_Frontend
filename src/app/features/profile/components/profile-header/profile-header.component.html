@@ -1,0 +1,46 @@
+<div class="profile-header-wrapper" *ngIf="userProfile">
+  <div class="profile-header">
+    <div class="profile-avatar-container">
+      <img 
+        [src]="userProfile.avatarUrl || '/assets/images/default-avatar.png'" 
+        alt="Avatar de {{ userProfile.username }}" 
+        class="profile-avatar">
+      <button *ngIf="isOwnProfile" class="edit-avatar-btn" (click)="onEditAvatar()">
+        <i class="fas fa-camera"></i>
+      </button>
+    </div>
+    <div class="profile-info">
+      <div class="profile-name-container">
+        <h1 class="profile-name">{{ userProfile.username }}</h1>
+        <span *ngIf="userProfile.verified" class="verification-badge" title="Utilisateur vérifié">
+          <i class="fas fa-check-circle"></i>
+        </span>
+      </div>
+      <p class="profile-location" *ngIf="userProfile.address?.city?.name">
+        <i class="fas fa-map-marker-alt"></i> {{ userProfile.address?.city?.name }}
+      </p>
+      <div class="profile-stats">
+        <div class="stat-item">
+          <span class="stat-value">{{ userProfile.itemsListed.length || 0 }}</span>
+          <span class="stat-label">Annonces</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="star-rating" *ngIf="ratingCount > 0">
+            <ng-container *ngFor="let starType of getStarArray(averageRating)">
+              <i [ngClass]="{'fas fa-star': starType === 1, 'fas fa-star-half-alt': starType === 0.5, 'far fa-star': starType === 0}"></i>
+            </ng-container>
+            <span class="stat-value">&nbsp;{{ averageRating | number:'1.1-1' }}</span>
+            <span class="stat-label"> ({{ ratingCount }} avis)</span>
+          </div>
+          <span *ngIf="ratingCount === 0" class="stat-label">Pas encore d'avis</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-label">Membre depuis : {{ joinDateFormatted }}</span>
+        </div>
+      </div>
+      <p class="profile-bio" *ngIf="userProfile.bio">{{ userProfile.bio }}</p>
+    </div>
+  </div>
+</div>

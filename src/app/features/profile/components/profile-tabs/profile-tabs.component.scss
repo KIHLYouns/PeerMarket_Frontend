@@ -1,0 +1,40 @@
+:host {
+  --color-primary: #007bff;
+  --color-text: #212529;
+  --color-text-muted: #6c757d;
+  --border-color: #dee2e6;
+  --font-semibold: 600;
+}
+
+.profile-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--color-border-light);
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.tab {
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  color: var(--color-text-medium);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-medium);
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--color-text-light);
+  }
+
+  &.active {
+    color: var(--color-primary);
+    font-weight: var(--font-semibold);
+    border-bottom-color: var(--color-primary);
+  }
+}

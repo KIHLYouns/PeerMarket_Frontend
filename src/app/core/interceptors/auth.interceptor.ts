@@ -24,8 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const excludedRoutes = [
       '/auth/login',
-      '/auth/signup',
-      '/auth/verification-codes',
+      '/auth/register',
     ];
 
     if (excludedRoutes.some((route) => req.url.includes(route))) {

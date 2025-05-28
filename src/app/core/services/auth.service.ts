@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { AppUserDto, UserService } from './user.service';
 
 export interface LoginRequest {
   username: string;
@@ -33,16 +34,16 @@ export class AuthService {
   private authState = new BehaviorSubject<boolean>(this.hasToken());
   public authState$ = this.authState.asObservable();
 
-  private currentUserSubject = new BehaviorSubject<AuthResponse | null>(this.getUserFromStorage());
+  private currentUserSubject = new BehaviorSubject<AppUserDto | null>(this.getUserFromStorage());
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private userService: UserService) {}
 
   private hasToken(): boolean {
     return !!localStorage.getItem('authToken');
   }
 
-  private getUserFromStorage(): AuthResponse | null {
+  private getUserFromStorage(): AppUserDto | null {
     const user = localStorage.getItem('currentUser');
     return user ? JSON.parse(user) : null;
   }
@@ -51,21 +52,36 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
       tap((response) => {
         localStorage.setItem('authToken', response.accessToken);
-        localStorage.setItem('currentUser', JSON.stringify(response));
         this.authState.next(true);
-        this.currentUserSubject.next(response);
-      })
+      }),
+      switchMap((response) => 
+        this.userService.getUserById(response.userId).pipe(
+          tap((userData) => {
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            this.currentUserSubject.next(userData);
+          }),
+          // Retourner la réponse originale de login si nécessaire pour la chaîne d'observables
+          switchMap(() => [response]) 
+        )
+      )
     );
   }
 
   signUp(signUpData: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/signup`, signUpData).pipe(
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, signUpData).pipe(
       tap((response) => {
         localStorage.setItem('authToken', response.accessToken);
-        localStorage.setItem('currentUser', JSON.stringify(response));
         this.authState.next(true);
-        this.currentUserSubject.next(response);
-      })
+      }),
+      switchMap((response) => 
+        this.userService.getUserById(response.userId).pipe(
+          tap((userData) => {
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            this.currentUserSubject.next(userData);
+          }),
+          switchMap(() => [response])
+        )
+      )
     );
   }
 
@@ -81,8 +97,13 @@ export class AuthService {
     return localStorage.getItem('authToken');
   }
 
-  getCurrentUser(): AuthResponse | null {
+  getCurrentUser(): AppUserDto | null {
     return this.currentUserSubject.value;
+  }
+
+  getUserData(): AppUserDto | null {
+    const userData = localStorage.getItem('currentUser');
+    return userData ? JSON.parse(userData) : null;
   }
 
   isAuthenticated(): boolean {

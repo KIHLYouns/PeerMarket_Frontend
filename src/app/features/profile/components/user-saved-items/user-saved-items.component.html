@@ -1,0 +1,9 @@
+<div class="user-saved-items-container">
+  <h2 class="section-header">Articles Sauvegardés ({{ savedItems.length }})</h2>
+  <div *ngIf="savedItems.length > 0; else noItems" class="items-grid">
+    <app-item-card *ngFor="let savedItem of savedItems" [item]="savedItem.item!" class="item-card-wrapper"></app-item-card>
+  </div>
+  <ng-template #noItems>
+    <p class="empty-state">Vous n'avez sauvegardé aucun article pour le moment.</p>
+  </ng-template>
+</div>

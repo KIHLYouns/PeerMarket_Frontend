@@ -169,7 +169,7 @@ export class SignUpComponent implements OnInit {
         password: this.passwordCtrl.value,
       };
 
-      this.userService.registerUser(signUpRequest).subscribe({
+      this.authService.signUp(signUpRequest).subscribe({
         next: () => {
           this.loadingStateSubject.next(false);
           this.router.navigate(['/']);

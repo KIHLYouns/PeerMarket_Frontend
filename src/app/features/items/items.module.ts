@@ -18,6 +18,9 @@ import { ItemsRoutingModule } from './items-routing.module';
     FormsModule,
     ReactiveFormsModule,
     ItemsRoutingModule
+  ],
+  exports: [
+    ItemCardComponent // Exporter pour utilisation dans d'autres modules
   ]
 })
 export class ItemsModule { }

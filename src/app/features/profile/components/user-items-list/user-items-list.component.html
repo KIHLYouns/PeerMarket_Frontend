@@ -1,0 +1,9 @@
+<div class="user-items-list-container">
+  <h2 class="section-header">Annonces Publiées ({{ items.length }})</h2>
+  <div *ngIf="items.length > 0; else noItems" class="items-grid">
+    <app-item-card *ngFor="let item of items" [item]="item" class="item-card-wrapper"></app-item-card>
+  </div>
+  <ng-template #noItems>
+    <p class="empty-state">Cet utilisateur n'a publié aucune annonce pour le moment.</p>
+  </ng-template>
+</div>

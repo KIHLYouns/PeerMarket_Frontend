@@ -1,0 +1,9 @@
+<div class="profile-tabs">
+  <div 
+    *ngFor="let tab of tabs" 
+    class="tab" 
+    [class.active]="tab.id === activeTab"
+    (click)="selectTab(tab.id)">
+    {{ tab.label }}
+  </div>
+</div>

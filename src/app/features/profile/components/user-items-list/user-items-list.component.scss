@@ -1,0 +1,41 @@
+:host {
+  --border-color: #dee2e6;
+  --color-text: #212529;
+  --color-text-muted: #6c757d;
+}
+
+.user-items-list-container {
+  padding: 1.5rem;
+  background-color: var(--color-bg-light);
+  border-radius: 8px;
+  border: 2px solid var(--color-border-light);
+  box-shadow: var(--shadow-light);
+  margin-bottom: 1.5rem;
+}
+
+.section-header {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-light);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.item-card-wrapper {
+  // Styles spécifiques si nécessaire
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--color-text-medium);
+  padding: 2rem 0;
+  font-style: italic;
+  font-size: var(--font-size-base);
+}

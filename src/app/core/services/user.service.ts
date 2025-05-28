@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { CityDto } from './city.service';
 import { ItemDto } from './item.service';
-import { ReviewDto } from './review.service';
 import { SavedItemDto } from './saved-item.service';
+import { ReviewDto } from './review.service';
+
 
 export interface AddressDto {
   id?: number;
@@ -79,7 +80,7 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  registerUser(userData: CreateUserDto): Observable<AppUserDto> {
+  createUser(userData: CreateUserDto): Observable<AppUserDto> {
     return this.http.post<AppUserDto>(this.usersApiUrl, userData);
   }
 

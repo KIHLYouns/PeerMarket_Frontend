@@ -1,0 +1,77 @@
+<div class="profile-container">
+  <ng-container *ngIf="isLoading">
+    <div class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i>
+      <span>Chargement du profil...</span>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="error && !isLoading">
+    <div class="error-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      {{ error }}
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="userProfile$ | async as userProfile; else noProfile">
+    <div *ngIf="!isLoading && !error">
+      <app-profile-header 
+        [userProfile]="userProfile" 
+        [isOwnProfile]="isOwnProfile">
+      </app-profile-header>
+
+      <app-profile-tabs 
+        [tabs]="availableTabs" 
+        [activeTab]="activeTab" 
+        (tabChanged)="onTabChanged($event)">
+      </app-profile-tabs>
+
+      <div class="profile-content">
+        <ng-container [ngSwitch]="activeTab">
+          <div *ngSwitchCase="'info'" class="tab-content active">
+            <app-profile-info-form 
+              [userProfile]="userProfile" 
+              [isOwnProfile]="isOwnProfile">
+            </app-profile-info-form>
+          </div>
+
+          <div *ngSwitchCase="'items'" class="tab-content active">
+            <app-user-items-list 
+              [items]="userProfile.itemsListed">
+            </app-user-items-list>
+          </div>
+
+          <div *ngSwitchCase="'reviewsReceived'" class="tab-content active">
+            <app-user-reviews-list 
+              [reviews]="userProfile.reviewsReceived" 
+              reviewType="received">
+            </app-user-reviews-list>
+          </div>
+
+          <ng-container *ngSwitchCase="'reviewsGiven'">
+            <div class="tab-content active" *ngIf="isOwnProfile">
+              <app-user-reviews-list 
+                [reviews]="userProfile.reviewsGiven" 
+                reviewType="given">
+              </app-user-reviews-list>
+            </div>
+          </ng-container>
+          
+          <ng-container *ngSwitchCase="'savedItems'">
+            <div class="tab-content active" *ngIf="isOwnProfile">
+              <app-user-saved-items 
+                [savedItems]="userProfile.savedItems">
+              </app-user-saved-items>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+  
+  <ng-template #noProfile>
+    <div *ngIf="!isLoading && !error" class="error-message">
+      Impossible de charger les informations du profil.
+    </div>
+  </ng-template>
+</div>
