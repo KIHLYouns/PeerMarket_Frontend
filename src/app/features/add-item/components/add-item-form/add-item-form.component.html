@@ -1,0 +1,128 @@
+<div class="container add-item-container">
+  <section class="add-listing-section">
+    <h1>{{ isEditMode ? 'Modifier l\'annonce' : 'Ajouter une Nouvelle Annonce' }}</h1>
+
+    <div *ngIf="isLoading" class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i> Chargement...
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      <i class="fas fa-exclamation-triangle"></i> {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="itemForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+
+      <!-- Images Section -->
+      <div class="form-group">
+        <h2>Images</h2>
+        <div class="image-upload-container">
+          <!-- Existing Images (Read-only) -->
+          <div *ngIf="isEditMode && existingImages.length > 0" class="image-preview-container existing-images">
+            <div *ngFor="let img of existingImages" class="image-preview-box">
+              <img [src]="img.url" [alt]="itemForm.get('title')?.value || 'Image existante'">
+            </div>
+          </div>
+          
+          <!-- New Image Upload -->
+          <div class="image-preview-container" id="image-preview">
+            <!-- Placeholder for upload box if no new images are selected -->
+            <div class="image-upload-box" *ngIf="imagePreviews.length === 0 && (existingImages.length + filesToUpload.length < 5)">
+              <label for="images-input" class="image-upload-label">
+                <i class="fas fa-camera"></i>
+                <p>Cliquer pour ajouter une image</p>
+              </label>
+              <input type="file" id="images-input" multiple accept="image/jpeg,image/png,image/webp" (change)="onFileSelected($event)" class="image-input">
+            </div>
+
+            <!-- Previews for newly selected images -->
+            <div *ngFor="let preview of imagePreviews; let i = index" class="image-preview-box new-image-preview">
+              <img [src]="preview" alt="Prévisualisation image {{i + 1}}">
+              <button type="button" class="btn-icon remove-image-btn" (click)="removeNewImage(i)" title="Supprimer cette image">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+             <!-- Add more images box if limit not reached -->
+            <div class="image-upload-box add-more-box" *ngIf="imagePreviews.length > 0 && (existingImages.length + filesToUpload.length < 5)">
+                <label for="images-input-more" class="image-upload-label">
+                  <i class="fas fa-plus"></i>
+                  <p>Ajouter</p>
+                </label>
+                <input type="file" id="images-input-more" multiple accept="image/jpeg,image/png,image/webp" (change)="onFileSelected($event)" class="image-input">
+            </div>
+          </div>
+
+          <div class="image-notes">
+            <p>• Formats acceptés : JPG, PNG, WEBP</p>
+            <p>• Taille max : 5 Mo par image</p>
+            <p>• Maximum 5 images au total</p>
+            <p>• La première image sera l'image principale</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- General Information Section -->
+      <div class="form-group">
+        <h2>Informations sur l'équipement</h2>
+        
+        <div class="form-field">
+          <label for="title">Titre de l'annonce*</label>
+          <input type="text" id="title" formControlName="title" placeholder="Ex: Canon EOS R5 avec objectif 24-70mm">
+          <div *ngIf="title?.invalid && (title?.dirty || title?.touched)" class="validation-error">
+            <small *ngIf="title?.errors?.['required']">Le titre est requis.</small>
+            <small *ngIf="title?.errors?.['minlength']">Le titre doit comporter au moins 3 caractères.</small>
+            <small *ngIf="title?.errors?.['maxlength']">Le titre ne doit pas dépasser 100 caractères.</small>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="category">Catégorie*</label>
+          <select id="category" formControlName="categoryId">
+            <option [ngValue]="null" disabled>Sélectionner une catégorie</option>
+            <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+          </select>
+          <div *ngIf="categoryId?.invalid && (categoryId?.dirty || categoryId?.touched)" class="validation-error">
+            <small *ngIf="categoryId?.errors?.['required']">La catégorie est requise.</small>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="price">Prix par Jour (DH)*</label>
+          <input type="number" id="price" formControlName="price" step="0.01" min="1" placeholder="Ex: 25.50">
+          <div *ngIf="price?.invalid && (price?.dirty || price?.touched)" class="validation-error">
+            <small *ngIf="price?.errors?.['required']">Le prix est requis.</small>
+            <small *ngIf="price?.errors?.['min']">Le prix doit être positif.</small>
+          </div>
+        </div>
+        
+        <div class="form-field">
+          <label for="condition">État de l'objet*</label>
+          <select id="condition" formControlName="condition">
+            <option *ngFor="let cond of itemConditions" [value]="cond.value">{{ cond.key }}</option>
+          </select>
+           <div *ngIf="condition?.invalid && (condition?.dirty || condition?.touched)" class="validation-error">
+            <small *ngIf="condition?.errors?.['required']">L'état est requis.</small>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="description">Description détaillée*</label>
+          <textarea id="description" formControlName="description" rows="5" placeholder="Décrivez votre article en détail (caractéristiques, état, accessoires inclus...)"></textarea>
+          <div *ngIf="description?.invalid && (description?.dirty || description?.touched)" class="validation-error">
+            <small *ngIf="description?.errors?.['required']">La description est requise.</small>
+            <small *ngIf="description?.errors?.['minlength']">La description doit comporter au moins 10 caractères.</small>
+            <small *ngIf="description?.errors?.['maxlength']">La description ne doit pas dépasser 2000 caractères.</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="goBack()">Annuler</button>
+        <button type="submit" class="btn btn-primary" [disabled]="itemForm.invalid || isLoading">
+          <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
+          {{ isEditMode ? 'Mettre à jour' : 'Publier l\'annonce' }}
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

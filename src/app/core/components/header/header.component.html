@@ -13,7 +13,7 @@
         <ng-container *ngIf="nav.isAuthenticated">
             <a routerLink="/items" class="header-nav-item">Parcourir</a>
             <a routerLink="/dashboard" class="header-nav-item">Tableau de bord</a>
-            <a routerLink="/item" class="header-nav-item">Ajouter une annonce</a>
+            <a routerLink="/item/new" class="header-nav-item">Ajouter une annonce</a>
             <a routerLink="/profile" class="header-nav-item">Profil</a>
             <button (click)="logout()" class="logout-btn">
                 Déconnexion
